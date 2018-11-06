@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TestePratico.Models.Repositorios>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+        <a asp-action="BuscarPorLinguagem">Buscar repositório por linguagem</a>
+    </div>
+
+<h4>Consultar repositório por linguagem</h4>
+<hr />
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnBuscar").click(function () {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("BuscarPorLinguagem", "Repositorios")',
+                contentType: "application/json",
+                data: { linguagem: $("#txtLinguagem").val() },
+                success: function (result) {
+
+                }
+            });
+        })
+    });
+</script>
+
+<div class="row">
+    <div class="col-md-2">
+        @Html.TextBox("txtLinguagem", null, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-default" id="btnBuscar">Buscar</button>
+    </div>
+</div>
+<h1>Repositórios </h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    <a asp-action="Detalhes" asp-route-id="@item.Id">Detalhes</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
